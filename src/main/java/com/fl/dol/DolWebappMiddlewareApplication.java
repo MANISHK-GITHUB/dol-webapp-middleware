@@ -25,7 +25,7 @@ public class DolWebappMiddlewareApplication {
 
     @RequestMapping("/")
     String sayHello() {
-        return "Hello World!";
+        return "Good Morning Pat Mam --!";
     }
 
     @GetMapping("/getone")
