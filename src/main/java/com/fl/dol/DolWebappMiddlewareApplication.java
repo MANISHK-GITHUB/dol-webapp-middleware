@@ -42,13 +42,26 @@ public class DolWebappMiddlewareApplication {
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(apimURL, HttpMethod.POST, entity, String.class);
-        String SQL_INSERT_API = "insert into dbo.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
+        //String SQL_INSERT_API = "insert into dbo.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
         //String SQL_INSERT_API = "insert into web_app_sds.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
 
-        System.out.println(" Response Entity Size in String : -"+response.toString().length());
+        //System.out.println(" Response Entity Size in String : -"+response.toString().length());
 
-        boolean insertSuccess = jdbcTemplate.update(SQL_INSERT_API, "scratchinfo",1, response.getBody().toString()) > 0;
-        System.out.println( " Insert Was  " + insertSuccess);
+        //boolean insertSuccess = jdbcTemplate.update(SQL_INSERT_API, "scratchinfo",1, response.getBody().toString()) > 0;
+        //System.out.println( " Insert Was  " + insertSuccess);
+
+        return response;
+    }
+
+    @GetMapping(value = "/callAPEXLongText")
+    public ResponseEntity<String> callAPEXLongText(){
+        String sql = "SELECT attributes FROM dbo.ords_data_webapp1 WHERE ID = ?";
+        String responseInString = jdbcTemplate.queryForObject(sql,new Object[]{1}, String.class);
+        System.out.println("Record was Found ---"+responseInString.length());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("CacheCall"," From DB");
+        ResponseEntity<String> response = new ResponseEntity<>(responseInString,headers,HttpStatus.CREATED);
+        // ResponseEntity<String> response = ResponseEntity.ok(responseInString);
 
         return response;
     }
