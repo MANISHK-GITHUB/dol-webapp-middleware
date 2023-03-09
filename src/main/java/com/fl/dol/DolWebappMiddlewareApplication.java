@@ -41,14 +41,18 @@ public class DolWebappMiddlewareApplication {
         headers.set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJPUkRTIFJFU1QgVVNFUiIsInN1YiI6ImdhbWVzIiwiYXVkIjoiSldUIFJlY2lwaWVudCIsImlhdCI6MTY3NTA4OTE1MywiZXhwIjoxNjg1MTMzMTUzLCJ1c3IiOiAiR0FNRVNfVVNFUiIsImlkIjogIk9SRFMtWFhYLTEzMyJ9.IP3aERVBp74X9x25Nf0FF-FZKX6RHNs8ljlzNt8iMyQ");
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(apimURL, HttpMethod.POST, entity, String.class);
-        //String SQL_INSERT_API = "insert into dbo.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
-        //String SQL_INSERT_API = "insert into web_app_sds.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
+        ResponseEntity<String> response = null;
+        try {
+            response = restTemplate.exchange(apimURL, HttpMethod.POST, entity, String.class);
+            //String SQL_INSERT_API = "insert into dbo.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
+            //String SQL_INSERT_API = "insert into web_app_sds.ords_data_webapp1(name, api_id, attributes) values(?,?,?)";
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
+        System.out.println(" Response Entity Size in String : -"+response.toString().length());
 
-        //System.out.println(" Response Entity Size in String : -"+response.toString().length());
-
-        //boolean insertSuccess = jdbcTemplate.update(SQL_INSERT_API, "scratchinfo",1, response.getBody().toString()) > 0;
-        //System.out.println( " Insert Was  " + insertSuccess);
+       // boolean insertSuccess = jdbcTemplate.update(SQL_INSERT_API, "scratchinfo",5, response.getBody().toString()) > 0;
+       // System.out.println( " Insert Was  " + insertSuccess);
 
         return response;
     }
