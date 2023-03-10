@@ -23,7 +23,7 @@ public class DolWebappMiddlewareApplication {
 
     @RequestMapping("/")
     String sayHello() {
-        return "Good Morning Pat Mam --!";
+        return "welcome";
     }
 
     @GetMapping("/getone")
@@ -31,7 +31,7 @@ public class DolWebappMiddlewareApplication {
         return new ResponseEntity<String>("GET Response from dol-webapp-middleware", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/callAPEX")
+    @GetMapping(value = "/callAPEX", produces="application/json")
     public ResponseEntity<String> callAPEX() {
         String apimURL = "http://dodb1.dol.state.fl.us:8080/ords/inet/api/games/scratchinfo";
         HttpHeaders headers = new HttpHeaders();
@@ -55,7 +55,7 @@ public class DolWebappMiddlewareApplication {
         return response;
     }
 
-    @GetMapping(value = "/callAPEXLongText")
+    @GetMapping(value = "/callAPEXLongText",produces="application/json")
     public ResponseEntity<String> callAPEXLongText(){
         String sql = "SELECT attributes FROM dbo.ords_data_webapp1 WHERE ID = ?";
         String responseInString = jdbcTemplate.queryForObject(sql,new Object[]{1}, String.class);
